@@ -21,7 +21,7 @@ echo -e ""
 echo -e "Welcome to revshell"
 echo -e "Select the type of revshell you want from this list..."
 echo -e "1=netcat; 1b=nc-win; 2=nc-bsd; 3=bash; 4=perl; 5=python; 6=php; 7=ruby; 8=go; "
-echo -e "Or some helpful powershell commands: 9=powershell-revshell; 9a=eax downloadstring; 9b=iwr:"
+echo -e "Or some helpful powershell commands: 9=ps-revshell; 9a=iex (shell.ps1); 9b=iwr:"
 echo -e "${NC}"
 echo -e ""
 
