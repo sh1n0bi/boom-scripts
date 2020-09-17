@@ -36,10 +36,22 @@ figlet $box |tee -a $box.md
 echo $target >> $box.md
 echo ""
 
+echo -e "${BLUE}[+] Starting a Quick  Nmap Scan!${NC}"
+nmap -Pn -T5 -p- $target |tee -a $box.md
+
+echo "###################################" >> $box.md
 
 echo -e "${BLUE}[+] Starting default Nmap Scan!${NC}"
 nmap -sVC -Pn --min-rate 10000 -p- $target |tee -a $box.md
 
+
+#### checking DNS
+if nc -w1 -z $target 53; then
+    echo -e "${BLUE}[+] Checking DNS !${NC}"
+    nslookup -type=any server $target |tee -a $box.md
+else
+    echo -e "${RED}[+] No DNS detected!${NC}"
+fi
 
 ####  checking for smb
 
@@ -60,6 +72,30 @@ if nc -w1 -z $target 80; then
 else
 	echo -e "${RED}[+] No Webserver on port 80!${NC}"
 fi
+
+
+### checking port 443
+
+if nc -w1 -z $target 443; then
+        echo -e "${BLUE}[+] Brute-forcing directories on 443 with Gobuster ${NC}"
+        gobuster dir -u https://$target/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 40 \
+        -x .php,.txt,.html,.asp -k |tee -a gob-443$box.txt
+else
+        echo -e "${RED}[+] No Webserver on port 443!${NC}"
+fi
+
+
+### checking port 8080
+
+if nc -w1 -z $target 8080; then
+        echo -e "${BLUE}[+] Brute-forcing directories on 8080 with Gobuster ${NC}"
+        gobuster dir -u http://$target:8080/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 40 \
+        -x .php,.txt,.html,.asp |tee -a gob-8080$box.txt
+else
+        echo -e "${RED}[+] No Webserver on port 8080!${NC}"
+fi
+
+
 
 ### checking snmp 161  --comment out unwanted scans.
 
