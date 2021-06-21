@@ -116,7 +116,7 @@ fi
 #### checking DNS
 if nc -w1 -z $2 53; then
     echo -e "${BLUE}[+] Checking DNS !${NC}"
-    nslookup -type=any server $2 |tee -a $1.md
+    nslookup $2 $2 |tee -a $1.md
 else
     echo -e "${RED}[+] No DNS detected!${NC}"
 fi
