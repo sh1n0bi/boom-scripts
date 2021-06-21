@@ -184,10 +184,10 @@ else
 fi
 
 foo=$(cat onesixtyone.txt |wc -l)
-if [ boo -lt 10 ]; then rm -rf onesixtyone.txt;fi
+if [ $foo -lt 10 ]; then rm -rf onesixtyone.txt;fi
 
-bar=$(cat snmp$1.txt|wc -l)
-if [ bar -lt 10 ]; then rm -rf snmp$1.txt;fi
+bar=$(cat snmp*.txt|wc -l)
+if [ $bar -lt 10 ]; then rm -rf snmp*.txt;fi
 
 
 ####### now you can decide how to proceed from here...!
