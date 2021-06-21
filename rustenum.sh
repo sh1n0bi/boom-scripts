@@ -121,6 +121,8 @@ else
     echo -e "${RED}[+] No DNS detected!${NC}"
 fi
 
+# testing this line...
+nslookup $2 $2 |awk '{print $NF}' |cut -d "." -f2,3 |xargs dig axfr @$2 |tee -a $1.md
 
 ####  checking for smb
 
