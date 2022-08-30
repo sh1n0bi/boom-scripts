@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # requires feroxbuster,ffuf,rustscan,nmap
-# smbmap, enum4linux, smbclient
+# smbmap, enum4linux, smbclient, smtp-user-enum
 # nslookup, snmpcheck,onesixtyone
 
 import pyfiglet
@@ -32,7 +32,7 @@ print("\033[1;34m[*] Press '?' for list of commands.\033[0;0m")
 print("-" * 50)
 
 
-# Create target Directory if don't exist
+# Create target Directory if doesn't exist
 if not os.path.exists(tango):
     os.mkdir(tango)
     print("\033[1;31m[*] Directory {} Created \033[0;0m".format(tango))
@@ -40,7 +40,7 @@ else:
     print("\033[1;31m[-] Directory {} already exists\033[0;0m".format(tango))
 
 
-########
+######## functions to call from command prompt
 
 def my_rustscan():
   print("\033[1;34m[*]Starting a SuperFast RustScan now! \033[0;0m ")
@@ -96,6 +96,13 @@ def my_feroxbuster():
     os.system(f"ffuf -u 'http://FUZZ.{ip}/' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -c -fs 0")
   else:
     print("nope!")
+
+
+
+def smtpEnum():
+    print("\033[1;33m [*] Enumerating SMTP users \33[0;0m")
+    os.system(f"smtp-user-enum -U /usr/share/seclists/Usernames/Names/names.txt -t {ip} -m 150")
+    os.system(f"nmap -Pn --script smtp-enum-users {ip} -p25")
 
 
 def smbEnum():
@@ -173,7 +180,7 @@ def oneSixtyone():
 
 
 
-# make a console where we can call these functions.
+######## make a console where we can call these functions.
 class Term(Cmd):
 
   prompt = "$> "
@@ -184,6 +191,8 @@ class Term(Cmd):
     my_feroxbuster()
   def do_smb(self,line):
     smbEnum()
+  def do_smtp(self,line):
+      smtpEnum()
   def do_dns(self,line):
     dnsCheck()
   def do_snmp(self,line):
