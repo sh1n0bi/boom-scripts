@@ -20,7 +20,7 @@ tango = sys.argv[1]
 ip = sys.argv[2]
 dom = ""
 
-ascii_banner = pyfiglet.figlet_format("RustEnum")
+ascii_banner = pyfiglet.figlet_format("F-Enum")
 print("\033[1;31m"+ascii_banner+"\033[0;0m")
 print("\033[1;34mby sh1n0bi\033[0;0m")
 
@@ -186,20 +186,44 @@ class Term(Cmd):
   prompt = "$> "
 
   def do_scan(self, line):
+    """
+    Rustscan and Nmap
+    """
     my_rustscan()
   def do_dirs(self,line):
+    """
+    Feroxbuster brute-force
+    """
     my_feroxbuster()
   def do_smb(self,line):
+    """
+    Enum4linux,smbmap,smbclient
+    """
     smbEnum()
   def do_smtp(self,line):
-      smtpEnum()
+    """
+    SMTP-user-enum
+    """
+    smtpEnum()
   def do_dns(self,line):
+    """
+    NSlookup,dig
+    """
     dnsCheck()
   def do_snmp(self,line):
+    """
+    SNMP-check,OneSixtyOne
+    """
     oneSixtyone()
   def do_krb(self,line):
+    """
+    Nmap krb enum
+    """
     krbEnum()
   def do_ldap(self,line):
+    """
+    Nmap ldap enum
+    """
     ldapEnum()
   def do_all(self,line):
     """
