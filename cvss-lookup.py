@@ -13,11 +13,11 @@ NC='\033[0m'
 
 # check that the CVE number is given as a command argument
 if len(sys.argv) !=2:
-  print(f"{RED}[!] Error: Pass the CVE name as an argument")
-  print(f"Eg: {sys.argv[0]} CVE-2018-13379 {NC}")
+  print(f"{RED}[!] Error: Pass the CVE number as an argument")
+  print(f"Eg: {sys.argv[0]} 2018-13379 {NC}")
   exit(1)
 
-cve = sys.argv[1]
+cve = "CVE-"+sys.argv[1]
 url = "https://nvd.nist.gov/vuln/detail/"
 r = requests.get(url+cve).text
 soup = BeautifulSoup(r,'lxml')
@@ -38,7 +38,7 @@ rating2 = getattr(soup.find("span", {"class": "tooltipCvss2NistMetrics"}), "text
 
 #print(soup.prettify)
 
-print(f"{RED}"+sys.argv[1])
+print(f"{RED}"+"CVE-"+sys.argv[1])
 print(f"{NC}")
 print("CVSSv3 rating:")
 print(score)
